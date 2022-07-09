@@ -1,5 +1,5 @@
 // 封装栈类
-function Stack() {
+ function Stack() {
   // 栈中的属性 - Array 
   this.items = []
 
@@ -34,12 +34,12 @@ function Stack() {
   // 6. toString方法
   Stack.prototype.toString = function () {
     // 20 10 12 8 7
-    return this.items.reverse().join(' ');
+    return this.items.reverse().join('');
   }
 
 }
-
-// 栈的使用
+module.exports = Stack;
+/* // 栈的使用
 // new => return一个新的对象，并且执行[[prototype]]连接，最后将其中的this绑定于新产生的对象上 。
 var s = new Stack()
 
@@ -51,4 +51,4 @@ s.push(40);
 s.pop();
 s.pop();
 console.log(s.peek());
-console.log(s.toString());
+console.log(s.toString()); */
