@@ -11,3 +11,6 @@ function decTobin(num) {
 }
 let theBin = decTobin(100);
 console.log(theBin);
+
+
+
