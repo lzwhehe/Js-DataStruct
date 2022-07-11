@@ -39,16 +39,4 @@
 
 }
 module.exports = Stack;
-/* // 栈的使用
-// new => return一个新的对象，并且执行[[prototype]]连接，最后将其中的this绑定于新产生的对象上 。
-var s = new Stack()
 
-s.push(20);
-s.push(10);
-s.push(30);
-s.push(40);
-
-s.pop();
-s.pop();
-console.log(s.peek());
-console.log(s.toString()); */
