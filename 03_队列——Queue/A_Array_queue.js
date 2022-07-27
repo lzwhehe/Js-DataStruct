@@ -1,30 +1,30 @@
 
-function Queue() {
-  // 属性
-  this.items = [];
-  // 方法
+class Queue {
+  constructor() {
+    this.items = [];
+  }
   // 1. 入队 , 直接在原型上添加方法 , 子类直接继承即可
-  Queue.prototype.enqueue = function (item) {
+  enqueue(item) {
     this.items.push(item);
   }
   // 2. 出队 and return 
-  Queue.prototype.dequeue = function () {
+  dequeue() {
     return this.items.shift();
   }
   // 3. 返回队列第一个元素，但是不修改队列 
-  Queue.prototype.font = function () {
+  font() {
     return this.items[0] || null;
   }
   // 4. 查看队列是否包含元素
-  Queue.prototype.isEmpty = function () {
-     return this.items.length === 0
+  isEmpty() {
+    return this.items.length === 0
   }
   // 5. 返回队列包含的元素个数 
-  Queue.prototype.size = function() {
-     return this.items.length;
+  size() {
+    return this.items.length;
   }
   // 6. toString
-  Queue.prototype.toString = function () {
+  toString() {
     return this.items.join(' ');
   }
 }
