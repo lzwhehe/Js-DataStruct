@@ -1,3 +1,4 @@
+// 说明: 这里初始化的时候，是初始化了一个头节点，而不是一个头指针
 class Node {
   constructor(data) {
     this.data = data;
@@ -20,21 +21,21 @@ class LinkedList {
       this.head.next = node;
     } else {
       // 添加第二个节点 -> 1.create 2.link
-      let current = this.head;
-      while (current.next) {
-        current = current.next;
+      let objNodePre = this.head;
+      while (objNodePre.next) {
+        objNodePre = objNodePre.next;
       }
-      current.next = node;
+      objNodePre.next = node;
     }
     this.length += 1;
   }
   // method2 -> toString
   toString() {
-    let current = this.head.next;
+    let objNodePre = this.head.next;
     let linkedString = '';
-    while (current) {
-      linkedString += current.data + ' ';
-      current = current.next;
+    while (objNodePre) {
+      linkedString += objNodePre.data + ' ';
+      objNodePre = objNodePre.next;
     }
     return linkedString;
   }
@@ -44,18 +45,18 @@ class LinkedList {
     if (position < 0 || position > this.length) return false;
     // 1. 创建节点
     let node = new Node(data);
-    // 2. 通过current移动指针找到对应position 
-    let current = this.head;
+    // 2. 通过objNodePre移动指针找到对应position 
+    let objNodePre = this.head;
     let flag = 1;
     while (true) {
       // 如果未找到对应的位置
       if (flag !== position && position - 1 != 0) {
-        current = current.next;
+        objNodePre = objNodePre.next;
         flag += 1;
       } else {
-        // 先右边再左边，对current.next下一个位置进行保留
-        node.next = current.next;
-        current.next = node;
+        // 先右边再左边，对objNodePre.next下一个位置进行保留
+        node.next = objNodePre.next;
+        objNodePre.next = node;
         return true;
       }
     }
@@ -64,16 +65,16 @@ class LinkedList {
   get(position) {
     // 对输入的position进行越界判断
     if (position < 0 || position > this.length) return false;
-    // 通过current移动指针找到对应position 
-    let current = this.head;
+    // 通过objNodePre移动指针找到对应position 
+    let objNodePre = this.head;
     let flag = 1;
     while (true) {
       // 如果未找到对应的位置
       if (flag !== position && position - 1 != 0) {
-        current = current.next;
+        objNodePre = objNodePre.next;
         flag += 1;
       } else {
-        return current.next.data;
+        return objNodePre.next.data;
       }
     }
   }
@@ -81,16 +82,16 @@ class LinkedList {
   update(position, element) {
     // 对输入的position进行越界判断
     if (position < 0 || position > this.length) return false;
-    // 通过current移动指针找到对应position 
-    let current = this.head;
+    // 通过objNodePre移动指针找到对应position 
+    let objNodePre = this.head;
     let flag = 1;
     while (true) {
       // 如果未找到对应的位置
       if (flag !== position && position - 1 != 0) {
-        current = current.next;
+        objNodePre = objNodePre.next;
         flag += 1;
       } else {
-        current.next.data = element;
+        objNodePre.next.data = element;
         return true;
       }
     }
@@ -99,20 +100,22 @@ class LinkedList {
   removeAt(position) {
     // 对输入的position进行越界判断
     if (position < 0 || position > this.length) return false;
-    // 通过current移动指针找到对应position 
-    let current = this.head;
+    // 通过objNodePre移动指针找到对应position 
+    let objNodePre = this.head;
+    // flag是一个标志物，start -> 实际第一个node , 通过flag和postion的关系，映射寻找目标的过程，从而牵动objNodePre指针的前进，让其指向目标的上一个 
+    // objNodePre是一个指针，start -> headNode
     let flag = 1;
     while (true) {
       // 如果未找到对应的位置
       if (flag !== position && position - 1 != 0) {
-        current = current.next;
+        objNodePre = objNodePre.next;
         flag += 1;
       } else {
-        if (current.next.next) {
-          current.next = current.next.next;
+        if (objNodePre.next.next) {
+          objNodePre.next = objNodePre.next.next;
           return true
         } else {
-          current.next = null;
+          objNodePre.next = null;
           return true;
         }
       }
@@ -128,12 +131,12 @@ class LinkedList {
   }
   // method8 -> 判断大小
   size() {
-    let current = this.head;
+    let objNodePre = this.head;
     let count = 0;
     while (true) {
       // 如果未找到对应的位置
-      if (current.next) {
-        current = current.next;
+      if (objNodePre.next) {
+        objNodePre = objNodePre.next;
         count += 1;
       } else {
         return count;
@@ -142,12 +145,12 @@ class LinkedList {
   }
   // method9 -> 判断元素的index
   indexOf(element) {
-    let current = this.head;
+    let objNodePre = this.head;
     let flag = 0;
     while (true) {
       // 如果未找到对应的位置
-      if (element !== current.data) {
-        current = current.next;
+      if (element !== objNodePre.data) {
+        objNodePre = objNodePre.next;
         flag += 1;
       } else {
         return flag;
@@ -157,17 +160,17 @@ class LinkedList {
   }
   // method10 - 指定元素移除一项
   remove(element) {
-    let current = this.head;
+    let objNodePre = this.head;
     while (true) {
       // 如果未找到对应的位置
-      if (element !== current.next.data) {
-        current = current.next;
+      if (element !== objNodePre.next.data) {
+        objNodePre = objNodePre.next;
       } else {
-        if (current.next.next) {
-          current.next = current.next.next;
+        if (objNodePre.next.next) {
+          objNodePre.next = objNodePre.next.next;
           return true;
         } else {
-          current.next = null;
+          objNodePre.next = null;
           return true;
         }
       }
