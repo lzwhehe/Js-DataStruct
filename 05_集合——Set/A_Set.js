@@ -41,8 +41,64 @@ class Set {
   values() {
     return Object.keys(this.items);
   }
+  // method - union
+  union(otherSet) {
+    let newSet = new Set();
+    function bl(obj) {
+      for (let i in obj) {
+        newSet.add(obj[i])
+      }
+    }
+    bl(this.items);
+    bl(otherSet.items);
+    return newSet;
+  }
+  // method - unite
+  unite(otherSet) {
+    let newSet = new Set();
+    let keys = Object.keys(otherSet.items);
+    keys.forEach(key => {
+      if (this.has(this.items[key])) {
+        newSet.add(this.items[key]);
+      }
+    })
+    return newSet;
 
+  }
+  // method - diffence
+  diffence(otherSet) {
+    // this.items -> A  
+    // otherSet.items -> B
+    let keys = Object.keys(otherSet.items);
+    keys.forEach(key => {
+      if (this.has(otherSet.items[key])) {
+        this.remove(otherSet.items[key]);
+      }
+    })
+    return this;
+  }
+  // method - inclued
+  inclued(otherSet) {
+    let keys = Object.keys(otherSet.items);
+    let res  = keys.every(key => {
+      return this.has(otherSet.items[key])
+    })
+    return res;
+  }
 }
 
+
+s1 = new Set();
+s2 = new Set();
+s1.add('a');
+s1.add('b');
+s1.add('c');
+s2.add('a');
+s2.add('b');
+s2.add('d');
+
+
+let s3 = s1.inclued(s2);
+console.log(s3);
 module.exports = Set;
 
