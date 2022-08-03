@@ -1,5 +1,14 @@
-let a = [1,2,3,4];
+const EventEmitter = require('events');
+// 1.create a emitter
+function monitor(loadFactor) {
+  const emitter = new EventEmitter();
+  emitter.addListener('change', (args) => {
+    // 数组扩容
+    console.log('监听到了越界');
+  })
+  if(loadFactor > 0.75) {
+    emitter.emit('crossBorder');
+  }
+}
 
-a.splice(1,1);
-
-console.log(a);
+monitor(0.2);
