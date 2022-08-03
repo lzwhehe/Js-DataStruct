@@ -1,9 +1,10 @@
+// target - [[k,v],[k,v],[k,v],[k,v],[k,v]]
 class HashTable {
   constructor() {
     //属性
     //初始状态下的几个大桶
     this.storage = [];
-    this.count = 0;
+    this.length = 0;
     //将数组长度设置为质数
     this.limit = 7;
   }
@@ -18,46 +19,80 @@ class HashTable {
     return hashCode % size;
   }
   //method - 增加元素
-  put(key) {
-    // 1. 将key转换为value
-    let value = this.hashFunc(key,this.limit);
-    // null->制造/ !null -> 选出bucket中元素修改 
-    // 2.1 指定index造桶, 如果桶为空，造桶
-    let bucket = this.storage[value]
+  put(key, value) {
+    let hashCode = this.hashFunc(key, this.limit);
+    let bucket = this.storage[hashCode];
     if (bucket == null) {
-      bucket = [];
-      bucket.push(key,value);
-      this.storage[value] = bucket;
-      this.count += 1;
-      // 2.2 非空选出桶中的kv,针对kv进行对比修改或者添加
+      // 先初始化一个数组
+      // 而后通过bucket重新指向于该数组对其进行操作
+      this.storage[hashCode] = [];
+      bucket = this.storage[hashCode];
+      bucket.push([key, value]);
+      this.length++;
     } else {
-      // 通过some来判断是否一个元素是相同的
-      let flag = bucket.some(kv => {
-        if (kv[0] == key) {
-          kv[1] = value;
-          // 有一个修改则true，退出
-          return true;
+      let flag = bucket.some(element => {
+        if (element[0] == key) {
+          return element[1] = value;
         }
       });
-      // 否则kv新元素直接添加 
-      if(flag==false){
-        bucket.push(key,value);
-        this.count += 1;
+      if (flag == false) {
+        bucket.push(key, value);
+        this.length++;
       }
-
+    }
+  }
+  //method - 获取元素
+  get(key) {
+    // 1. key -> index
+    let index = this.hashFunc(key, this.limit);
+    // 2. index -> bucket
+    let bucket = this.storage[index];
+    // add -> bucket检测
+    if(bucket == null) {
+      return null;
+    }
+    // 3. 遍历bucket , find that target
+    let target = 0;
+    let flag = bucket.some(element => {
+       if(element[0] === key) {
+        return target = element[1];
+       }
+    });
+    if(flag) return target;
+    else return false;
+  }
+  //method - 删除元素
+  delete(key){
+    // remove -> delete arr element
+    // 1. find the bucket
+    let index = this.hashFunc(key,this.limit);
+    let bucket = this.storage[index];
+    if(!bucket) return false;
+    else { 
+      bucket.forEach((element,index,arr)=> {
+         if(element[0] == key){
+            arr.splice(index,1);
+            this.length -= 1;
+            return true;
+         }
+      });
     }
 
+
   }
-  // 获取方法
-
-
-
+  // method - 判断是否为空
+  isEmpty(){
+    return !this.length;
+  }
 }
 
 
-let h1 = new HashTable();
-h1.put('abc');
-h1.put('a');
+h1 = new HashTable();
+h1.put('lzw',12)
+h1.put('wzj',13)
+h1.delete('lzw');
+h1.delete('wzj');
+let res = h1.isEmpty();
+console.log(res);
 console.log(h1);
-
 
