@@ -11,6 +11,21 @@ class HashTable {
     this.limit = 7;
   }
   //方法
+  //method - 判断素数
+  isPrime(n) {
+    // 任何一个可进行因数分解的数字，那么两个数字一个是小于等于sqrt(n) , 一个是大于等于sqrt(n)
+    if (n < 2) return false;
+    else {
+      for (let i = 2; i <= parseInt(Math.sqrt(n)); i++) {
+        if (n % i == 0) {
+          return false
+        } else {
+          continue;
+        }
+      }
+      return true;
+    }
+  }
   //method - 哈希化
   hashFunc(str, size) {
     let hashCode = 0;
@@ -27,7 +42,7 @@ class HashTable {
     // 2. init
     this.storage = [];
     this.length = 0;
-    this.limit = this.limit * 2;
+    this.limit = newLimit;
     // 3. fill
     oldStroage.forEach((bucket) => {
       if (bucket != null) {
@@ -39,8 +54,17 @@ class HashTable {
     })
   }
   isScale() {
-    if (this.length >  this.limit * 0.75) {
-      this.scale(this.limit * 2)
+    if (this.length > this.limit * 0.75) {
+      let tarLimit = this.limit * 2 + 1;
+      while (true) {
+        if (this.isPrime(tarLimit)) {
+          this.scale(tarLimit);
+          break;
+        } else {
+          tarLimit += 1;
+          continue;
+        }
+      }
     }
   }
   //method - 增加元素
@@ -104,8 +128,19 @@ class HashTable {
         }
       });
     }
-
-
+    // 缩小容量
+    if (this.limit > 7 && this.length < this.limit * 0.25) {
+      let tarLimit = Math.floor(this.limit / 2)  + 1;
+      while (true) {
+        if (this.isPrime(tarLimit)) {
+          this.scale(tarLimit);
+          break;
+        } else {
+          tarLimit += 1;
+          continue;
+        }
+      }
+    }
   }
   // method - 判断是否为空
   isEmpty() {
@@ -121,6 +156,10 @@ h1.put('aa', 13)
 h1.put('ss', 13)
 h1.put('xx', 13)
 h1.put('cc', 13)
+h1.delete('cc')
+h1.delete('xx')
+h1.delete('ss')
+h1.delete('wzj')
 
 
 console.log(h1);
