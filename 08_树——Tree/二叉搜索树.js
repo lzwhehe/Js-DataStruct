@@ -44,10 +44,30 @@ class Bst {
 
     }
   }
+  // 树的遍历
+  // method2 - 先序遍历
+  preOrderTraversal(handler) {
+    this.preOrderTraversalNode(this.root, handler); 
+  }
+  preOrderTraversalNode(node, handler) {
+    if (node != null) {
+      // 首先处理节点，而后往后查找 -> 先序遍历
+      // 什么时候处理root  -> 先序遍历
+      handler(node.data);
+      this.preOrderTraversalNode(node.left, handler);
+      this.preOrderTraversalNode(node.right, handler);
+    }
+  }
+
 }
 
 let b1 = new Bst();
-b1.insert(2);
+b1.insert(5);
 b1.insert(3);
-b1.insert(4);
-console.log(b1);
+b1.insert(2);
+
+let res = '';
+b1.preOrderTraversal(key => {
+  res += key + " ";
+})
+console.log(res);
