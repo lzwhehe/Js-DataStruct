@@ -27,7 +27,7 @@ class Bst {
   // 递归调用本质是一种循环
   insertNode(node, newNode) {
     //向左查找
-    if (newNode.key < node.key) {
+    if (newNode.data < node.data) {
       if (node.left == null) {
         node.left = newNode;
       } else {
@@ -82,6 +82,46 @@ class Bst {
       handler(node.key);
     }
   }
+  // method5 - 获取最大值
+  max() {
+    // 直接遍历到右子树的右节点
+    let objNode = this.root;
+    while (objNode.right != null) {
+      objNode = objNode.right;
+    }
+    return objNode.data;
+  }
+  // method6 - 获取最小值
+  min() {
+    let objNode = this.root;
+    while (objNode.left != null) {
+      objNode = objNode.left;
+    }
+    return objNode.data;
+  }
+  // method7 - 搜索特定的节点
+  searchValue(value) {
+    let objNode = this.root;
+    return this.search(value, objNode);
+  }
+  search(value, objNode) {
+    // 未找到的终止
+    if (objNode == null) {
+      return false;
+    }
+    if (value < objNode.data) {
+      // 小于向左查找
+      objNode = objNode.left;
+      return this.search(value, objNode);
+    } else if (value > objNode.data) {
+      // 大于向右查找 
+      objNode = objNode.right;
+      return this.search(value, objNode);
+    } else {
+      // 找到的终止
+      return true;
+    }
+  }
 
 }
 
@@ -90,8 +130,7 @@ b1.insert(5);
 b1.insert(3);
 b1.insert(2);
 
-let res = '';
-b1.preOrderTraversal(key => {
-  res += key + " ";
-})
-console.log(res);
+
+console.log(b1.searchValue(1));
+
+
