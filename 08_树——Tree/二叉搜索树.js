@@ -47,7 +47,7 @@ class Bst {
   // 树的遍历
   // method2 - 先序遍历
   preOrderTraversal(handler) {
-    this.preOrderTraversalNode(this.root, handler); 
+    this.preOrderTraversalNode(this.root, handler);
   }
   preOrderTraversalNode(node, handler) {
     if (node != null) {
@@ -56,6 +56,30 @@ class Bst {
       handler(node.data);
       this.preOrderTraversalNode(node.left, handler);
       this.preOrderTraversalNode(node.right, handler);
+    }
+  }
+  // method3 - 中序遍历
+  midOrderTraversal(handler) {
+    this.midOrderTraversalNode();
+  }
+  midOrderTraversalNode(node, handler) {
+    if (node != null) {
+      // 先递归到左的节点，而后进行处理
+      this.midOrderTraversalNode(node.left, handler);
+      handler(node.key);
+      this.midOrderTraversalNode(node.right, handler);
+    }
+  }
+  // method4 - 后序遍历
+  postOrderTraversal(handler) {
+    this.preOrderTraversal()
+  }
+  postOrderTraversalNode(node, handler) {
+    if (node != null) {
+      // 先递归最后对数据进行处理
+      this.postOrderTraversalNode(node.left, handler);
+      this.postOrderTraversalNode(node.right, handler);
+      handler(node.key);
     }
   }
 
