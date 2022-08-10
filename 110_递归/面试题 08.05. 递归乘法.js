@@ -23,17 +23,17 @@ var multiply = function (A, B) {
 // 递归解法 -> 通过多次内部重新调用自身建立循环关系
 // A - 3 B -4 return 12
 var sellCallMultiply = function (A, B) {
-  // 构成多个A相加 = 乘 = A + A + A + A + 0
-  // 所以现在需要做的就是如何控制次数
-  // 通过 B-- , 如果为0终止直接返回function值
+  let res = 0;
   if (A == 0 || B == 0) {
-    return 0;
+    return res;
   }
-  if(A > B) {
-    return A + sellCallMultiply(A, B - 1);
-  }else {
-    return B + sellCallMultiply(A - 1,B);
+  if (A < B) {
+    // B + 2B = 3B
+    res = B + sellCallMultiply(A - 1, B);
+  } else {
+    res = A + sellCallMultiply(A, B - 1);
   }
+  return res;
 }
 console.log(sellCallMultiply(3, 4));
 
