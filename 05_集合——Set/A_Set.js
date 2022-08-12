@@ -3,7 +3,6 @@ class Set {
     // 属性
     this.items = {};
   }
-  // method - add
   add(value) {
     // kv false
     if (this.has(value)) {

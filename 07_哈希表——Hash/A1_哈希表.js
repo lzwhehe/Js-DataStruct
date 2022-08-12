@@ -1,5 +1,4 @@
 // target - [[k,v],[k,v],[k,v],[k,v],[k,v]]
-const EventEmitter = require('events');
 
 class HashTable {
   constructor() {
