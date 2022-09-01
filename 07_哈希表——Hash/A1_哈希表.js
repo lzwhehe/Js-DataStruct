@@ -1,4 +1,4 @@
-// target - [[k,v],[k,v],[k,v],[k,v],[k,v]]
+// target - storage [ bucket1 [[k,v],[k,v]] bucket2 [[k,v],[k,v]]  ]
 
 class HashTable {
   constructor() {
@@ -70,20 +70,25 @@ class HashTable {
   put(key, value) {
     let hashCode = this.hashFunc(key, this.limit);
     let bucket = this.storage[hashCode];
+    // 有元素 = 可能需要更新,  无元素 = 直接添加 , 很多时候初态都是单独拿出来讨论的。 
     if (bucket == null) {
       // 先初始化一个数组
       // 而后通过bucket重新指向于该数组对其进行操作
+      // 1.创建桶
       this.storage[hashCode] = [];
+      // 2. 向填充元素
       bucket = this.storage[hashCode];
       bucket.push([key, value]);
       this.length++;
       this.isScale();
     } else {
+      // 如果key相同则是更新
       let flag = bucket.some(element => {
         if (element[0] == key) {
           return element[1] = value;
         }
       });
+      // 否则就是添加元素
       if (flag == false) {
         bucket.push([key, value]);
         this.length++;
@@ -101,7 +106,7 @@ class HashTable {
     if (bucket == null) {
       return null;
     }
-    // 3. 遍历bucket , find that target
+    // 3. 遍历bucket , find that res
     let target = 0;
     let flag = bucket.some(element => {
       if (element[0] === key) {
@@ -149,17 +154,11 @@ class HashTable {
 
 
 h1 = new HashTable();
-h1.put('lzw', 12)
-h1.put('wzj', 13)
-h1.put('aa', 13)
-h1.put('ss', 13)
-h1.put('xx', 13)
-h1.put('cc', 13)
-h1.delete('cc')
-h1.delete('xx')
-h1.delete('ss')
-h1.delete('wzj')
-
-
+// 设置字典中的含义对照
+h1.put('get', '拿到')
+h1.put('put', '推')
+// 根据对应单词拿到对应的翻译
 console.log(h1);
 
+// 如果是传统数组则 Arr [get , 拿到] , 而后比对 Arr[0] ?= get , 如果是这种做法的话，就会导致效率非常低
+// 相比于哈希表，当我拿到get的时候，其实就拿到了他位于Arr的索引，而后直接访问Arr[index]，即可获取对应的单词含义

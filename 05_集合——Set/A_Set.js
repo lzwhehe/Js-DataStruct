@@ -96,8 +96,6 @@ s2.add('a');
 s2.add('b');
 s2.add('d');
 
-
-let s3 = s1.inclued(s2);
-console.log(s3);
+console.log(s1);
 module.exports = Set;
 

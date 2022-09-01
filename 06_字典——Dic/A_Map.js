@@ -49,3 +49,4 @@ function Dictionay() {
       this.items = {}
   }
 }
+module.exports = Dictionay;
