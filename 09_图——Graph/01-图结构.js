@@ -52,7 +52,7 @@ class Graph {
     })
     return colors;
   }
-  // bfs
+  // Bfs
   bfs(firV, handler) {
     // 入队 = 访问
     // 得到边节点 = 探测
@@ -81,10 +81,30 @@ class Graph {
       handler(rVertex);
       // 4. 修改顶点颜色为黑色
       colors[rVertex] = 'black';
-
     }
-
-
+  }
+  // Dfs
+  dfs(firV, handler) {
+    // 单点进行处理
+    // 1.初始化颜色
+    let colors = this.initColor();
+    // 2.递归
+    this.dfsDealing(firV, colors, handler);
+  }
+  // Dfs - 递归中 
+  dfsDealing(firV, colors, handler) {
+    // 2.处理v顶点
+    handler(firV);
+    colors[firV] = 'grey';
+    // 3.处理firV下的节点
+    let vList = this.edges.get(firV)
+    // 4. 遍历处理 + 递归
+    vList.forEach(v => {
+      if (colors[v] === 'white') {
+        colors[v] = 'grey';
+        this.dfsDealing(v, colors, handler);
+      }
+    })
   }
 }
 
@@ -106,7 +126,7 @@ g.addEdge('B', 'F')
 g.addEdge('E', 'I')
 
 let res = '';
-g.bfs(g.vertexes[0],function(v){
+g.dfs(g.vertexes[0], function (v) {
   res += v;
 })
 console.log(res);
