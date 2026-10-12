@@ -104,3 +104,4 @@ pair 88
 pair 89
 pair 90
 pair 91
+pair 92
